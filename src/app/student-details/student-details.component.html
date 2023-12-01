@@ -1,0 +1,65 @@
+<div class="card" *ngIf="student else noStudent">
+    <div class="card-body">
+        <div>id: {{student.id}}</div>
+        <form [formGroup]="studentForm">
+            <div class="form-group">
+                <label for="name">Student Name:</label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <ng-container *ngIf="studentForm.controls['name'].errors">
+                    <div class="alert alert-danger" *ngIf="studentForm.controls['name'].errors['required']">This field
+                        is required</div>
+                    <div class="alert alert-danger" *ngIf="studentForm.controls['name'].errors['minlength']">This field
+                        must have at least 3 chars</div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" class="form-control" id="phone" formControlName="phone">
+                <ng-container *ngIf="studentForm.controls['phone'].errors">
+                    <div class="alert alert-danger" *ngIf="studentForm.controls['phone'].errors['required']">This field
+                        is required</div>
+                    <div class="alert alert-danger" *ngIf="studentForm.controls['phone'].errors['minlength']">This field
+                        must have at least 10 chars</div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label for="courseId">Course:</label>
+                <select class="form-control" formControlName="courseId" id="courseId">
+                    <option *ngFor="let course of coursesList" [value]="course.id">{{course.description}}</option>
+                </select>
+            </div>
+            <div *ngIf="!studentForm.controls['courseId'].valid" class="alert alert-danger">This field
+                is required</div>
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <br>
+                <input type="radio" [value]="yearsTypes.FirstYear" name="year" formControlName="year">שנה א
+                <br>
+                <input type="radio" [value]="yearsTypes.SecondYear" name="year" formControlName="year">שנה ב
+                <br>
+                <input type="radio" [value]="yearsTypes.ThirdYear" name="year" formControlName="year">שנה ג
+            </div>
+            <div [ngSwitch]="studentForm.controls['year'].value">
+                <div *ngSwitchCase="0">300 days</div>
+                <div *ngSwitchCase="1">250 days</div>
+                <div *ngSwitchCase="2">100 days</div>
+                <div *ngSwitchDefault>unknown number of days </div>
+            </div>
+            <div class="form-group">
+                <label for="active">Active?</label>
+                <br>
+                <input type="radio" [value]="true" name="active" formControlName="active">Active
+                <br>
+                <input type="radio" [value]="false" name="active" formControlName="active">Not Active
+            </div>
+            <div class="form-group">
+                <label for="avg">Average Mark:</label>
+                <input type="number" class="form-control" id="avg" formControlName="avgMark">
+            </div>
+            <button class="btn btn-primary" (click)="saveNewStudent()" [disabled]="!studentForm.valid">Save</button>
+        </form>
+    </div>
+</div>
+<ng-template #noStudent>
+    No Student To Show
+</ng-template>

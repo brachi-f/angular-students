@@ -1,0 +1,18 @@
+<ul>
+    <li *ngFor="let student of students" class="list-group-item"
+        [ngClass]="{'list-group-item-info':student.active, 'list-group-item-success':student.avgMark>=90}">
+        <div class="row">
+            <div class="col-1">{{student.id}}</div>
+            <div class="col-3">{{student.name}}</div>
+            <div class="col-2">
+                <button (click)="ShowItem(student)">Show Details</button>
+            </div>
+            <div class="col-2">
+                <button (click)="DeleteItem(student.id)">Delete</button>
+            </div>
+        </div>
+    </li>
+</ul>
+<button class="btn btn-primary" (click)="ShowItem()">Add</button>
+
+<student-details [student]="selectedStudent" (OnSaveStudent)="saveStudentToList($event)"></student-details>
